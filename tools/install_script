@@ -1,0 +1,49 @@
+#busybox ln -sf /system/bin/busybox /bin/fuser
+#busybox ln -sf /system/bin/busybox /bin/xargs
+#busybox ln -sf /system/bin/busybox /bin/expr
+#busybox ln -sf /system/bin/busybox /bin/tail
+#busybox ln -sf /system/bin/busybox /bin/wc
+#busybox ln -sf /system/bin/busybox /bin/sha512sum
+#
+#
+#
+#
+#
+#
+line=`wc -l $0|awk '{print $1}'`;
+line=`expr $line - 49`
+#
+tail -n +55 $0 > /tmp/$FILENAME; sleep 6; sync; echo $(date)" updating MPU "$VERSION
+#if [ -e /tmp/install.sh ] ; then echo "install.sh has been launched..."; exit; else touch /tmp/install.sh; fi; sync; sleep 6;
+VALUE=$(sha512sum /tmp/$FILENAME)
+CHECKSUM=${VALUE% *}
+CHECKSUM=`echo $CHECKSUM`
+if [ "$CHECKSUM" != "$SHA512SUM" ] ; then
+    echo $CHECKSUM" != "$SHA512SUM
+    rm -f /tmp/$FILENAME /tmp/*.sh $0
+    exit
+fi
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# to tar install.sh to /tmp/foton_tmp and tries to execute /tmp/foton_tmp/install.sh
+mkdir -p /tmp/foton_tmp; echo $(date)" updating MPU mkdir -p /tmp/foton_tmp"
+tar xvf /tmp/$FILENAME -C /tmp/foton_tmp install.sh
+curdir=$(pwd)
+cd /tmp/foton_tmp
+chmod 777 ./install.sh; ./install.sh $FILENAME &
+cd $curdir
+#rm /tmp/install.sh; echo $(date)" updating MPU /tmp/install.sh";
+#ret=$?; echo $(date)" updating MPU done"
+exit
